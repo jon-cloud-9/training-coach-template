@@ -90,7 +90,7 @@ point.
 > First I'll check the coaching files all arrived in your folder. You'll see a box
 > asking whether I can run a command: click Allow.
 
-Only after Do step 1 passes:
+Only after Do steps 1 and 2 pass:
 > The coaching files are all in your folder. Next I'll switch on git, a free tool that
 > keeps a dated history of every change to your training notes, so nothing is ever
 > lost and anything can be undone.
