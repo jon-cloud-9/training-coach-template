@@ -103,22 +103,24 @@ After they answer:
 > box asking whether I can run them: click Allow.
 
 **Do:**
-1. Confirm the template arrived: `ls CLAUDE.md .mcp.json scripts/setup-state.sh`.
+1. Check the folder's location: `pwd`. If the path contains `/Desktop/`,
+   `/Documents/` or `Mobile Documents`, stop here and see "If it fails". Otherwise carry on.
+2. Confirm the template arrived: `ls CLAUDE.md .mcp.json scripts/setup-state.sh`.
    Also confirm the hidden folder came across: `ls .claude/skills/setup/SKILL.md`.
-2. Check git works: `git --version`. On a fresh Mac this can open Apple's "command
+3. Check git works: `git --version`. On a fresh Mac this can open Apple's "command
    line developer tools" window instead (see If it fails).
-3. If the folder isn't already a git history (`git rev-parse --git-dir` fails):
+4. If the folder isn't already a git history (`git rev-parse --git-dir` fails):
    ```bash
    git init -b main
    git config user.name "<Name>"
    git config user.email "<name>@users.noreply.local"   # <name>: lowercase, letters only
    ```
    These settings are local to this folder.
-4. Commit:
+5. Commit:
    ```bash
    git check-ignore -q config/intervals.env && git add -A && git commit -m "Start my training coach"
    ```
-5. Remember what the shared files look like right now, so a later update can tell
+6. Remember what the shared files look like right now, so a later update can tell
    which ones the user has edited: `bash scripts/update-shared.sh --record-checksums`.
    Tell the user: "I've noted the starting state of the coaching files, so a future
    update never overwrites changes you've made."
@@ -127,6 +129,16 @@ After they answer:
 `config/.template-checksums` exists.
 
 **If it fails:**
+- **The folder is in Desktop, Documents or iCloud:** tell the user:
+  > Your "My Training" folder is somewhere Apple may copy to iCloud (Desktop or
+  > Documents do this on many Macs). iCloud can create duplicate files with "2" at the
+  > end of their names and break your coaching files. Let's move the folder to your
+  > home folder, the one with your name on it under Locations in Finder. In Finder, drag
+  > "My Training" from here into that home folder. Then quit Claude (Cmd-Q), reopen it,
+  > go to the **Code** tab, start a new session, choose the moved folder, and say
+  > "continue setup".
+
+  Don't continue in the old location.
 - **Files missing:** the download or the move didn't finish. Redo the starter
   message's download (curl, unzip, move everything including dotfiles, delete the zip
   and the empty folder), then run this step again. Tell the user: "Some files didn't

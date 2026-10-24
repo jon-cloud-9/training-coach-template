@@ -16,7 +16,7 @@ You do these three steps yourself.
 
 1. Go to **claude.ai** in your web browser.
 2. Create an account and choose the **Pro** plan. It costs about £18 / $20 a month.
-3. The free plan won't work. It doesn't include the Code tab that we use.
+3. The free plan won't work for this.
 
 ### 2. Download the Claude desktop app and sign in
 
@@ -27,7 +27,7 @@ You do these three steps yourself.
 ### 3. Open the Code tab and paste the starter message
 
 1. In the Claude app, click the **Code** tab.
-2. Create a new, empty folder called **My Training**. Documents is a good place for it. Choose that folder when Claude asks which folder to work in.
+2. Create a new, empty folder called **My Training**. Make it in your home folder. That's the one with your name on it, shown under Locations in Finder. Please don't put it in Documents or Desktop, because on many Macs those are copied to iCloud, which can create duplicate files that break things. Choose the folder when Claude asks which folder to work in.
 3. Copy all of this and paste it as your first message, then press Return:
 
 ```
@@ -40,6 +40,7 @@ From here on, Claude leads. Come back to this guide if you want to know what's c
 
 - If you can't see a **Code** tab, check you're signed in and on the Pro plan. Quit and reopen the app.
 - If Claude says it can't find a folder, make sure you chose "My Training" and that it's empty.
+- If you can't create a folder from the picker, make an empty folder called My Training in your home folder in Finder first, then choose it.
 
 ---
 
@@ -89,7 +90,7 @@ Before Claude runs something on your Mac, or changes a file, the app shows a box
 ### s06 — Fetch the bridge
 *(step s06)*
 
-**What Claude will do:** set up a small helper that reads your Garmin data. This is automatic. The first time can take up to a minute.
+**What Claude will do:** set up a small helper that reads your Garmin data. (Claude calls this the bridge.) This is automatic. The first time can take up to a minute.
 
 **What you'll do:** click Allow when asked.
 
@@ -109,7 +110,7 @@ Before Claude runs something on your Mac, or changes a file, the app shows a box
 
 1. Create a free account at **intervals.icu**.
 2. Link Garmin. Open **Settings**, then **Connections**, then **Garmin Connect**. Sign in to Garmin and allow access. If it offers to download your activities and to upload planned workouts, turn both on.
-3. Copy your key. In **Settings**, scroll to **Developer Settings** and copy the **API key**. It's a long password-like code.
+3. Copy your key. In **Settings**, scroll to **Developer Settings** and copy the **API key**. It's a long password-like code. Tell Claude when you've copied it.
 
 Then, when Claude opens TextEdit, you'll see one line of text that ends with an equals sign (=). Click just after the = sign, paste your key (Cmd-V) with no spaces, save (Cmd-S) and close the window.
 
@@ -151,7 +152,7 @@ Claude will then ask you to quit and reopen the app, so the helper can read the 
 
 **What you'll do:** if you don't have an account, sign up free at **notion.so**. Then in Claude, open **Settings** (Claude menu, then Settings, or Cmd-comma), go to **Connectors**, find **Notion**, click **Connect**, sign in if asked, and allow access.
 
-**What you'll see:** a Notion sign-in and permission page, then "Connected".
+**What you'll see:** a Notion sign-in and permission page, then a confirmation that Notion is connected.
 
 **If something looks different**
 
@@ -237,7 +238,7 @@ Claude will then ask you to quit and reopen the app, so the helper can read the 
 ### s15 — Put workouts on your watch
 *(step s15)*
 
-**What Claude will do:** show you which runs and rides it would add to your watch. Nothing goes on your watch until you say yes. Swims and gym sessions can't go on the watch this way. They'll be in Notion.
+**What Claude will do:** show you which of your runs and rides it would add to your watch. Nothing goes on your watch until you say yes. Swims and gym sessions can't go on the watch this way. They'll be in Notion. Runs without a pace target yet, and rides if you don't have a power meter, stay in Notion only.
 
 **What you'll do:** say yes to all, pick some, or say no. You can skip this step.
 
@@ -268,7 +269,7 @@ Claude will then ask you to quit and reopen the app, so the helper can read the 
 
 **What Claude will do:** explain the weekly routine (see "Using it every week" below). It also offers an optional free online backup of your training notes. Without it, everything still lives safely on your Mac with its full history.
 
-**What you'll do:** decide whether you want the backup. Skipping is completely fine. If you want it, Claude guides you one step at a time. You'll make a free account on GitHub, a website for storing projects like this. You'll create a private project, and make an access code for your Mac. Don't paste the code into the chat. It goes into a small window beside the chat that Claude opens for you.
+**What you'll do:** decide whether you want the backup. Skipping is completely fine. If you want it, Claude guides you one step at a time. You'll make a free account on GitHub, a website for storing projects like this. You'll create a private project, and make an access code for your Mac. Don't paste the code into the chat. It goes into a small window beside the chat that Claude opens for you, or Claude will tell you what to open instead.
 
 **What you'll see:** Claude says setup is complete.
 
