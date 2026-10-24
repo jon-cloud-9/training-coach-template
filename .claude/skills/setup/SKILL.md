@@ -118,8 +118,13 @@ After they answer:
    ```bash
    git check-ignore -q config/intervals.env && git add -A && git commit -m "Start my training coach"
    ```
+5. Remember what the shared files look like right now, so a later update can tell
+   which ones the user has edited: `bash scripts/update-shared.sh --record-checksums`.
+   Tell the user: "I've noted the starting state of the coaching files, so a future
+   update never overwrites changes you've made."
 
-**Check:** the three files exist, and `git log --oneline -1` shows the commit.
+**Check:** the three files exist, `git log --oneline -1` shows the commit, and
+`config/.template-checksums` exists.
 
 **If it fails:**
 - **Files missing:** the download or the move didn't finish. Redo the starter
