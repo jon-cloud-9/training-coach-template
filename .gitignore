@@ -1,0 +1,5 @@
+config/intervals.env
+.backup/
+.superpowers/
+.DS_Store
+*.log

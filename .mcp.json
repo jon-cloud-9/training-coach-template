@@ -1,0 +1,1 @@
+{"mcpServers":{"intervals":{"command":"npx","args":["-y","intervals-training-bridge@^0.2","--stdio","--settings-file","config/intervals.env"]}}}

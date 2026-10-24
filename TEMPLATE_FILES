@@ -1,0 +1,16 @@
+CLAUDE.md
+.claude/settings.json
+.claude/hooks/notion-sync-reminder.sh
+.claude/skills/starttrainingweek/SKILL.md
+.claude/skills/endtrainingweek/SKILL.md
+.claude/skills/endtrainingweek/rotate.sh
+.claude/skills/setup/SKILL.md
+.claude/skills/update/SKILL.md
+.mcp.json
+scripts/setup-state.sh
+scripts/update-shared.sh
+START-HERE.md
+README.md
+LICENSE
+VERSION
+TEMPLATE_FILES
