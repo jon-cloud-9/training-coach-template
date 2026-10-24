@@ -84,7 +84,7 @@ Before Claude runs something on your Mac, or changes a file, the app shows a box
 **If something looks different**
 
 - If the installer asks whether to move itself to the Bin, either answer is fine.
-- If Claude says it can't see Node yet, quit Claude completely (Claude menu, then Quit). Open it again, go to the **Code** tab, open your "My Training" session from the list on the left, and say "continue setup".
+- If Claude says it can't see Node yet, quit Claude completely (Claude menu, then Quit). Open it again, go to the **Code** tab, open your "My Training" session from the list on the left, and say "continue setup". If you're asked whether to use "intervals", choose to allow it. That's the helper.
 - If the installer says it can't be opened, tell Claude what the message says. It will try again.
 
 ### s06 — Fetch the bridge
@@ -116,7 +116,7 @@ Then, when Claude opens TextEdit, you'll see one line of text that ends with an 
 
 **Please don't paste the key into the chat.** The file stays on your Mac and is never included in your backups or history.
 
-Claude will then ask you to quit and reopen the app, so the helper can read the key. Quit Claude completely (Cmd-Q), open it again, go to the **Code** tab, and open your "My Training" session. You may be asked whether to use "intervals", found in this folder. That's the helper, so choose to allow it. Then say "continue setup".
+Claude will then ask you to quit and reopen the app, so the helper can read the key. Quit Claude completely (Cmd-Q), open it again, go to the **Code** tab, and open your "My Training" session. You may be asked whether to use "intervals", found in this folder. That's the helper, so choose to allow it. If you say no by mistake, tell Claude and it will switch it back on. Then say "continue setup".
 
 **What you'll see:** TextEdit with one line of text, then Claude confirming the key is saved.
 
@@ -137,7 +137,8 @@ Claude will then ask you to quit and reopen the app, so the helper can read the 
 
 **If something looks different**
 
-- If Claude says the helper isn't available, quit and reopen Claude as in step s07, and allow "intervals" again.
+- If Claude says the helper isn't available, it will check whether "intervals" was switched off earlier. Claude remembers a "no", so it won't ask again by itself. If it was switched off, Claude will ask to switch it back on (click Allow), then ask you to quit and reopen as in step s07. You can also type `/mcp` in the message box, pick "intervals" and switch it on.
+- If it wasn't switched off, quit and reopen Claude as in step s07, and allow "intervals" when asked.
 - If Claude says the key is empty or wrong, go back to step s07 and copy the key again.
 - If it finds no activities, check your workouts show on the intervals.icu calendar. If your account is new, that's fine.
 

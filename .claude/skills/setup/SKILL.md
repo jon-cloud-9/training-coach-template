@@ -36,8 +36,11 @@ point.
    - **If s06 is done:** if s07 is also done, call `get_training_context` with
      `startDate` and `endDate` both set to today. If s07 isn't done yet, re-run s06's
      check command instead. If it fails, tell the user plainly ("I can't reach your
-     Garmin data right now, so let's fix that first") and redo s06, then s07's check
-     if the error says the key is missing or empty.
+     Garmin data right now, so let's fix that first"). If the bridge's tools are
+     missing altogether, do the "tools aren't available" check in s08's **If it
+     fails** first: a "no" to the "intervals" question is remembered, so restarting
+     alone won't bring the bridge back. Otherwise redo s06, then s07's check if the
+     error says the key is missing or empty.
    - **If s09 is done:** run a Notion search (the Notion `search` tool, query
      `Training`). If it fails or the Notion tools are missing, say so plainly ("Your
      Notion connection has dropped, so let's reconnect it") and redo s09.
@@ -203,8 +206,9 @@ After they say yes and it downloads:
   > Node is installed, but this chat started before it was there, so I need a fresh
   > start to see it. Please quit Claude completely (Claude menu → Quit, or press
   > Cmd-Q), open it again, go to the **Code** tab, and open your "My Training" session
-  > from the list on the left (or start a new one in the My Training folder). Then
-  > just say "continue setup" and I'll pick up right here.
+  > from the list on the left (or start a new one in the My Training folder). You may
+  > be asked whether to use "intervals", found in this folder: that's the bridge, so
+  > choose to allow it. Then just say "continue setup" and I'll pick up right here.
 - **The installer says it can't be opened or failed:** ask them to describe or
   screenshot the message. Retry the download once; if it fails again, use the
   nodejs.org download page as above.
@@ -285,7 +289,8 @@ When they've copied it:
    > Claude completely (Claude menu → Quit, or Cmd-Q), open it again, go to the
    > **Code** tab, and open your "My Training" session from the list on the left. When
    > it opens, you may be asked whether to use "intervals", found in this folder:
-   > that's the bridge, so choose to allow it. Then say "continue setup".
+   > that's the bridge, so choose to allow it. (If you say no by mistake, just tell
+   > me and I'll switch it back on.) Then say "continue setup".
 
 **Check:** `grep -c '^INTERVALS_API_KEY=[[:space:]]*[^[:space:]]' config/intervals.env`
 prints `1`. This counts the line without printing the key, and a key of only spaces
@@ -322,8 +327,25 @@ can see 143 activities from the last 90 days. The most recent is a 10km run on
 Tuesday."
 
 **If it fails:**
-- **The bridge's tools aren't available at all:** the session wasn't restarted, or the
-  "intervals" server wasn't allowed. Give the restart instructions from s07 again.
+- **The bridge's tools aren't available at all:** first check whether the "intervals"
+  question was answered "no". Claude remembers that answer and won't ask again, so a
+  restart alone just loops. Read `.claude/settings.local.json` if it exists (it holds
+  Claude's own settings for this folder, never the key).
+  - **If `"intervals"` is listed under `disabledMcpjsonServers`:** tell the user:
+    > It looks like the bridge was switched off when Claude asked about "intervals"
+    > earlier. That's easy to fix. Claude remembers that answer, so it won't ask
+    > again by itself, but I can switch it back on by changing one line in this
+    > folder's Claude settings. Is that OK? You'll see a box asking to change the
+    > file: click Allow.
+
+    With their OK, edit the file: remove `"intervals"` from `disabledMcpjsonServers`
+    and add it to `enabledMcpjsonServers` (create that list if it isn't there). Leave
+    everything else as it is and keep the file valid JSON. Then give the restart
+    instructions from s07. If they'd rather do it themselves, or it still isn't
+    available after the restart: "Type `/mcp` in the message box and press Return.
+    In the list that appears, pick 'intervals' and switch it on."
+  - **Otherwise:** the session wasn't restarted, or the question hasn't come up yet.
+    Give the restart instructions from s07 again.
 - **An error saying the settings file can't be found, or the key is empty:** show the
   bridge's message in plain words ("The bridge says your key is empty") and go back to
   s07.
