@@ -8,7 +8,7 @@ _What you do in the 24 hours before the start. Filled in during setup._
 
 ## 2. Bike Leg (if you ride)
 
-_Carbohydrate, fluid and electrolyte schedule for the bike, run by the clock. Leave this section out if your races have no bike leg. Filled in during setup._
+_Carbohydrate, fluid and electrolyte schedule for the bike, run by the clock. If your races have no bike leg, write "Not part of your races." here and keep the section number. Filled in during setup._
 
 ### What's on course, and what you carry
 
