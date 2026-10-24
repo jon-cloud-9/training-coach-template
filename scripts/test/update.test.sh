@@ -112,5 +112,15 @@ out="$(cd "$U" && bash scripts/update-shared.sh --from "$N" 2>&1)"; rc=$?
 check "self-update with a longer upstream script completes cleanly" "0|no|yes" \
   "$rc|$(echo "$out" | grep -q SHOULD-NOT-RUN && echo yes || echo no)|$(grep -q SHOULD-NOT-RUN "$U/scripts/update-shared.sh" && echo yes || echo no)"
 
+# 11. a failed copy leaves no temp file behind
+if [ "$(id -u)" -ne 0 ]; then   # root can read a chmod 000 file, so the copy wouldn't fail
+  U="$T/u11"; N="$T/n11"; make_user "$U"; make_upstream "$N" 0.2.0
+  chmod 000 "$N/CLAUDE.md"
+  out="$(cd "$U" && bash scripts/update-shared.sh --from "$N" 2>&1)"; rc=$?
+  chmod 644 "$N/CLAUDE.md"
+  check "failed copy exits non-zero and leaves no temp file" "yes|0|claude-0.1.0" \
+    "$([ "$rc" -ne 0 ] && echo yes || echo no)|$(find "$U" -name '*.new.*' | wc -l | tr -d ' ')|$(cat "$U/CLAUDE.md")"
+fi
+
 echo "$pass passed, $fail failed"
 [ "$fail" -eq 0 ]

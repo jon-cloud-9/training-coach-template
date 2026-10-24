@@ -57,9 +57,12 @@ check_path() { # exit 2 unless $1 is a safe, shared (non-personal) relative path
 install_file() { # copy $1 to $2 via a temp file + mv, so the target gets a new inode
   local tmp
   tmp="$(mktemp "$2.new.XXXXXX")"
-  cp -p "$1" "$tmp"
-  case "$2" in *.sh) chmod +x "$tmp" ;; esac
-  mv -f "$tmp" "$2"
+  if cp -p "$1" "$tmp" && { case "$2" in *.sh) chmod +x "$tmp" ;; esac; } && mv -f "$tmp" "$2"; then
+    return 0
+  fi
+  rm -f "$tmp"   # never leave a half-copied temp file behind
+  echo "could not update $2" >&2
+  return 1
 }
 
 update_from() {

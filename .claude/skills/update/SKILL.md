@@ -56,8 +56,10 @@ plain and short, and say what a command does before you run it. Their personal d
 7. **Commit** the update (set the history up first only if `git rev-parse --git-dir`
    fails):
    ```bash
-   git add -A && git commit -m "Update coaching system to <new version>"
+   git check-ignore -q config/intervals.env && git add -A && git commit -m "Update coaching system to <new version>"
    ```
+   If `git check-ignore` fails, stop and don't commit: the key file must never be
+   committed. Add `config/intervals.env` to `.gitignore`, then commit.
    Use the changed-file list from step 4: if any changed path starts with `.claude/`
    or equals `.mcp.json`, tell the user:
    > Some of my own instructions changed, so please close this session and start a new
