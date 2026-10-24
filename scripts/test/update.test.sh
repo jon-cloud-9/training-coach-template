@@ -89,5 +89,28 @@ for bad in "../outside.txt" "/etc/hosts"; do
     "$rc|$(echo "$out" | grep -qF -- "$bad" && echo yes || echo no)|$(cat "$U/CLAUDE.md")"
 done
 
+# 8. bypass attempts on the path guard
+for pair in "dot-slash prefix is refused:./athlete/p.md" "uppercase protected folder is refused:ATHLETE/q.md" ".git path is refused:.git/hooks/x"; do
+  name="${pair%%:*}"; bad="${pair#*:}"
+  U="$T/u8"; N="$T/n8"; make_user "$U"; make_upstream "$N" 0.2.0 "$bad"
+  mkdir -p "$N/$(dirname "$bad")"; echo "evil" > "$N/$bad"
+  out="$(cd "$U" && bash scripts/update-shared.sh --from "$N" 2>&1)"; rc=$?
+  check "$name ($bad)" "2|yes|claude-0.1.0|my profile|none" \
+    "$rc|$(echo "$out" | grep -qF -- "$bad" && echo yes || echo no)|$(cat "$U/CLAUDE.md")|$(cat "$U/athlete/profile.md")|$([ -e "$U/.git/hooks/x" ] && echo bad || echo none)"
+done
+
+# 9. CRLF line endings in TEMPLATE_FILES
+U="$T/u9"; N="$T/n9"; make_user "$U"; make_upstream "$N" 0.2.0
+sed 's/$/\r/' "$N/TEMPLATE_FILES" > "$N/TF.crlf" && mv "$N/TF.crlf" "$N/TEMPLATE_FILES"
+out="$(cd "$U" && bash scripts/update-shared.sh --from "$N" 2>&1)"; rc=$?
+check "crlf line endings handled" "0|claude-0.2.0" "$rc|$(cat "$U/CLAUDE.md")"
+
+# 10. self-update with a longer upstream script
+U="$T/u10"; N="$T/n10"; make_user "$U"; make_upstream "$N" 0.2.0
+printf '\necho SHOULD-NOT-RUN\n' >> "$N/scripts/update-shared.sh"
+out="$(cd "$U" && bash scripts/update-shared.sh --from "$N" 2>&1)"; rc=$?
+check "self-update with a longer upstream script completes cleanly" "0|no|yes" \
+  "$rc|$(echo "$out" | grep -q SHOULD-NOT-RUN && echo yes || echo no)|$(grep -q SHOULD-NOT-RUN "$U/scripts/update-shared.sh" && echo yes || echo no)"
+
 echo "$pass passed, $fail failed"
 [ "$fail" -eq 0 ]

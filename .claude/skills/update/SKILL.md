@@ -58,7 +58,8 @@ plain and short, and say what a command does before you run it. Their personal d
    ```bash
    git add -A && git commit -m "Update coaching system to <new version>"
    ```
-   If any file under `.claude/` or `.mcp.json` changed, tell the user:
+   Use the changed-file list from step 4: if any changed path starts with `.claude/`
+   or equals `.mcp.json`, tell the user:
    > Some of my own instructions changed, so please close this session and start a new
    > one to pick them up.
 

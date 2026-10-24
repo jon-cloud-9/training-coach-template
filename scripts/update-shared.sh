@@ -17,7 +17,7 @@ SUMS="$ROOT/config/.template-checksums"
 sha() { shasum -a 256 "$1" | cut -d' ' -f1; }
 
 list_paths() { # print non-empty paths from a TEMPLATE_FILES file
-  grep -v '^[[:space:]]*$' "$1" | grep -v '^[[:space:]]*#' || true
+  tr -d '\r' < "$1" | grep -v '^[[:space:]]*$' | grep -v '^[[:space:]]*#' || true
 }
 
 record_checksums() {
@@ -37,6 +37,31 @@ recorded_sum() { # path -> recorded checksum or empty
   grep -F -- "  $1" "$SUMS" | grep -- "  $1\$" | head -1 | cut -d' ' -f1 || true
 }
 
+check_path() { # exit 2 unless $1 is a safe, shared (non-personal) relative path
+  local p="$1" lc seg bad=0 IFS_OLD="$IFS"
+  printf '%s' "$p" | grep -Eq '^[A-Za-z0-9_.-]+(/[A-Za-z0-9_.-]+)*$' || bad=1
+  if [ "$bad" -eq 0 ]; then
+    IFS=/; for seg in $p; do
+      case "$seg" in .|..|"") bad=1 ;; esac
+    done; IFS="$IFS_OLD"
+    lc="$(printf '%s' "$p" | tr 'A-Z' 'a-z')"
+    case "$lc" in
+      athlete/*|campaigns/*|config/*|.git/*|.backup/*|.git) bad=1 ;;
+    esac
+  fi
+  if [ "$bad" -eq 1 ]; then
+    echo "refusing to update protected or unsafe path: $p" >&2; exit 2
+  fi
+}
+
+install_file() { # copy $1 to $2 via a temp file + mv, so the target gets a new inode
+  local tmp
+  tmp="$(mktemp "$2.new.XXXXXX")"
+  cp -p "$1" "$tmp"
+  case "$2" in *.sh) chmod +x "$tmp" ;; esac
+  mv -f "$tmp" "$2"
+}
+
 update_from() {
   local src="$1" p old new stamp bk n_updated=0 n_backed=0 have_sums=0 cur rec
   [ -f "$src/TEMPLATE_FILES" ] && [ -f "$src/VERSION" ] || {
@@ -46,10 +71,7 @@ update_from() {
 
   # Validate every path before touching anything.
   while IFS= read -r p; do
-    case "$p" in
-      /*|..|../*|*/..|*/../*|athlete/*|campaigns/*|config/*)
-        echo "refusing to update protected or unsafe path: $p" >&2; exit 2 ;;
-    esac
+    check_path "$p"
   done < <(list_paths "$src/TEMPLATE_FILES")
 
   if [ "$old" = "$new" ]; then echo "already up to date ($new)"; exit 0; fi
@@ -70,8 +92,7 @@ update_from() {
       fi
     fi
     mkdir -p "$ROOT/$(dirname "$p")"
-    cp -p "$src/$p" "$ROOT/$p"
-    case "$p" in *.sh) chmod +x "$ROOT/$p" ;; esac
+    install_file "$src/$p" "$ROOT/$p"
     n_updated=$((n_updated+1))
   done < <(list_paths "$src/TEMPLATE_FILES")
 
@@ -82,6 +103,6 @@ update_from() {
 case "${1:-}" in
   --record-checksums) record_checksums ;;
   --from) [ -n "${2:-}" ] && [ -d "$2" ] || { echo "usage: update-shared.sh --from <dir>" >&2; exit 2; }
-          update_from "$(cd "$2" && pwd)" ;;
+          update_from "$(cd "$2" && pwd)"; exit 0 ;;
   *) echo "usage: update-shared.sh --from <dir> | --record-checksums" >&2; exit 2 ;;
 esac
