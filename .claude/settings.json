@@ -1,4 +1,10 @@
 {
+  "permissions": {
+    "deny": [
+      "Read(./config/intervals.env)",
+      "Bash(cat config/intervals.env*)"
+    ]
+  },
   "hooks": {
     "PostToolUse": [
       {

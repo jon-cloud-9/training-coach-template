@@ -180,5 +180,8 @@ edit to a `weeks/*/plan.md`.
 ## Repository conventions
 
 - Commits go **directly to `main`**. There is no feature-branch or PR workflow here.
+- **Never read, print or ask for the contents of `config/intervals.env`**: it holds the
+  athlete's API key. On bridge errors, troubleshoot from the error message without
+  opening it.
 - Superseded plan text lives in **git history** — there is no separate archive folder
   for it. Completed campaigns move whole into `campaigns/archive/`.
