@@ -44,7 +44,8 @@ earlier decisions rather than the other way round. Four weeks is the default win
 `/endtrainingweek` rotates anything older into `weeks/archive/`.
 
 **At the start of a campaign there will be fewer than four.** Top up the window from
-the most recently archived campaign, so the brief sees across the boundary:
+the previous campaign, if there is one, so the brief sees across the boundary. On the
+very first campaign there's nothing to top up from, so skip the top-up.
 
 The previous campaign is the one listed before the active one in the season
 strategy's structure table. For the first campaign of a season, it's the most recent
@@ -55,9 +56,9 @@ checkouts reset them.
 ls -d campaigns/archive/<previous>/weeks/week-*/ | sort | tail -<n>
 ```
 
-Read that campaign's summary as well, especially its last campaign-history entry and
-any end-of-block outputs its final phase doc lists. Those are what the new campaign
-starts from.
+If there is a previous campaign, read its summary as well, especially its last
+campaign-history entry and any end-of-block outputs its final phase doc lists. Those
+are what the new campaign starts from.
 
 If there are no week folders anywhere, say so plainly and work from the campaign
 summary. That's the first week under the format, not an error. A week that started

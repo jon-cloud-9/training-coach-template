@@ -22,11 +22,11 @@ block, whatever comes next. Anything specific to the athlete's physiology lives 
 | `campaigns/<name>/weeks/week-NN-YYYY-MM-DD/` | `plan.md` (generated Sunday) and `log.md` (execution) | Rotated to `weeks/archive/` past the active window |
 | `campaigns/upcoming/<name>/` | Future campaigns in this season, written in outline. Promoted to `campaigns/<name>/` when the previous campaign closes. Only one campaign sits directly under `campaigns/` at a time | Until promoted |
 | `campaigns/archive/` | Completed campaigns, moved whole | Permanent |
-| `config/` | Yours: your settings (intervals.icu key, Notion IDs, setup progress). Never changed by updates | Permanent |
+| `config/` | The athlete's settings (intervals.icu key, Notion IDs, setup progress). Never changed by updates | Permanent |
 | `.mcp.json` | Points Claude Code at the `intervals` bridge (`intervals-training-bridge`) over stdio, reading `config/intervals.env` | — |
 | `scripts/` | Helper scripts: `setup-state.sh` (setup progress) and `update-shared.sh` (updates) | — |
 | `START-HERE.md` | The plain-English first-run guide | — |
-| `VERSION` | The template version you are on | — |
+| `VERSION` | The template version the athlete is on | — |
 | `TEMPLATE_FILES` | The list of template-owned files that updates may replace. Nothing under `athlete/`, `campaigns/` or `config/` is ever listed | — |
 | `.claude/skills/` | `/setup`, `/update`, `/starttrainingweek` and `/endtrainingweek`, plus `rotate.sh` | — |
 | `.claude/hooks/` | The Notion sync reminder, wired up in `.claude/settings.json` | — |

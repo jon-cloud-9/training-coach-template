@@ -185,7 +185,7 @@ it's documentation and it's the point of automating the close.
 git add athlete/ campaigns/
 git status --short                    # confirm nothing unexpected is staged
 git commit -m "Week NN: <short theme>; plan Week NN+1"
-git remote | grep -q . && git push origin main   # only if a remote is configured
+if git remote get-url origin >/dev/null 2>&1; then git push origin main; fi   # only if a remote is configured
 ```
 
 If the push is rejected, the remote has moved — `git pull --ff-only origin main` and

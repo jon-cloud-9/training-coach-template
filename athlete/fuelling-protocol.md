@@ -6,9 +6,9 @@ _What this document is: your race nutrition and hydration baseline, validated st
 
 _What you do in the 24 hours before the start. Filled in during setup._
 
-## 2. Bike Leg
+## 2. Bike Leg (if you ride)
 
-_Carbohydrate, fluid and electrolyte schedule for the bike, run by the clock. Filled in during setup._
+_Carbohydrate, fluid and electrolyte schedule for the bike, run by the clock. Leave this section out if your races have no bike leg. Filled in during setup._
 
 ### What's on course, and what you carry
 
@@ -18,15 +18,15 @@ _Aid station offer versus what you carry yourself. Filled in during setup._
 
 _The hourly intake targets. Filled in during setup._
 
-## 3. Run Leg
+## 3. Run Leg (if you run)
 
-_Fuelling and fluids for the run. Filled in during setup._
+_Fuelling and fluids for the run, or for the whole race if it is run only. Filled in during setup._
 
-## 5. Race Day — Actuals
+## 4. Race Day — Actuals
 
 _What you actually did on race day and how it went. Filled in after your first race._
 
-## 6. Master Strategy Rules
+## 5. Master Strategy Rules
 
 _The few rules that hold regardless of conditions. Filled in during setup._
 
