@@ -124,11 +124,15 @@ may set by hand.
 
 IDs live in `config/notion.md`; read it before any Notion write. If it's missing, run `/setup`.
 
-**Standing permission (granted by the athlete during setup):** create, update and mark
-rows in the Training Sessions database, and update the "Training Programme"
-heading block and "This week" view filter on the Dashboard, **without asking each
-time**. Nothing else in Notion is touched without asking. This does not extend to the
-Garmin calendar, which still needs approval per change.
+**Standing permission (asked during setup):** before any Notion write, read
+`standing_permission` in `config/notion.md`.
+- **`yes`:** create, update and mark rows in the Training Sessions database, and update
+  the "Training Programme" heading block and "This week" view filter on the Dashboard,
+  **without asking each time**.
+- **`no` or missing:** ask the athlete before writing, saying what will change.
+
+Either way, nothing else in Notion is touched without asking, and this never extends to
+the Garmin calendar, which still needs approval per change.
 
 ### One row per session
 

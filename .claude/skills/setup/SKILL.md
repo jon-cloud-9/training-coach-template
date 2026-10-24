@@ -87,11 +87,15 @@ point.
 ## s04 — Finish the download and start the history
 
 **Tell the user:**
-> The coaching files are now in your folder. Next I'll check they all arrived, then
-> switch on git, a free tool that keeps a dated history of every change to your
-> training notes, so nothing is ever lost and anything can be undone.
+> First I'll check the coaching files all arrived in your folder. You'll see a box
+> asking whether I can run a command: click Allow.
+
+Only after Do step 1 passes:
+> The coaching files are all in your folder. Next I'll switch on git, a free tool that
+> keeps a dated history of every change to your training notes, so nothing is ever
+> lost and anything can be undone.
 >
-> First, a quick question: what name should I put on your training notes? Your first
+> A quick question first: what name should I put on your training notes? Your first
 > name is fine.
 
 After they answer:
@@ -252,7 +256,7 @@ When they've copied it:
    from the history:
    ```bash
    mkdir -p config
-   grep -q '^INTERVALS_API_KEY=.\+' config/intervals.env 2>/dev/null || printf 'INTERVALS_API_KEY=' > config/intervals.env
+   grep -q '^INTERVALS_API_KEY=[[:space:]]*[^[:space:]]' config/intervals.env 2>/dev/null || printf 'INTERVALS_API_KEY=' > config/intervals.env
    git check-ignore -q config/intervals.env && echo "excluded from history"
    open -a TextEdit config/intervals.env
    ```
@@ -266,8 +270,9 @@ When they've copied it:
    > it opens, you may be asked whether to use "intervals", found in this folder:
    > that's the bridge, so choose to allow it. Then say "continue setup".
 
-**Check:** `grep -c '^INTERVALS_API_KEY=.\+' config/intervals.env` prints `1`. This counts
-the line without printing the key.
+**Check:** `grep -c '^INTERVALS_API_KEY=[[:space:]]*[^[:space:]]' config/intervals.env`
+prints `1`. This counts the line without printing the key, and a key of only spaces
+doesn't count.
 
 **If it fails:**
 - **The count is 0:** the file wasn't saved, or the key went onto a new line. Run
@@ -365,14 +370,22 @@ Once Notion is connected, ask: "Do you pay for Strava?" Only if they say yes, ad
 > - On a page you already use, such as a dashboard: tell me its name.
 > - Or on a new page called "Training" (that's the default, if you're not sure).
 >
-> If you pick an existing page, I'll only add a new section at the bottom. I won't
-> change anything that's already on it.
+> Either way, the table itself lives on its own new page called "Training". If you
+> pick an existing page, that page just gets a weekly section added at the bottom,
+> showing this week's sessions. I won't change anything that's already on it.
+>
+> While I set this up, Notion may ask you to allow each change. It's fine to allow
+> them.
 
 Then ask for the standing permission the weekly routine relies on:
 > One more thing. Each week I'll update your sessions in Notion: adding next week's,
 > marking last week's done or missed, and moving the "This week" view on. Is it OK for
 > me to do that without asking each time? I'll never touch anything else in Notion
 > without asking. (Putting workouts on your watch will still always need your yes.)
+
+If they say no:
+> That's fine. I'll ask you each time before I update Notion, usually once a week
+> when we plan the next week.
 
 **Do:**
 1. **Training page.** Create a page titled "Training" with the Notion create-pages tool
@@ -422,10 +435,13 @@ Then ask for the standing permission the weekly routine relies on:
    | database | <Training Sessions database URL or ID> |
    | data_source | <collection://… data source ID> |
    | this_week_view | <view://… ID of the "This week" view> |
+   | standing_permission | <yes or no: their answer to the weekly-updates question> |
    ```
+   `CLAUDE.md` → "Writing to Notion" reads `standing_permission` before every Notion
+   write: `yes` means go ahead; `no` or missing means ask first.
    Record in the file whether placeholder select options need removing in s14.
 
-**Check:** `config/notion.md` has all four values filled in, and fetching the dashboard
+**Check:** `config/notion.md` has all five values filled in, and fetching the dashboard
 page shows the "Training Programme" heading and the "This week" view.
 
 Tell the user, with a link to the page:
@@ -564,9 +580,22 @@ on the sections named here, so keep the headings exactly.
    always its own header), warm-up / main set / cool-down detail, and a Session ID
    comment on each activity header with `wNN` standing for the week number, e.g.
    `### Run — Easy (40 min) <!-- id: wNN-run-easy -->`.
-7. **Later campaigns**, only if the season has more than one: each goes in
-   `campaigns/upcoming/<name>/` with a `summary.md` (status "Upcoming") and a
-   `plan.md` outline, plus a row in `campaigns/upcoming/README.md`.
+7. **Later campaigns**, only if the season has more than one. Each goes in
+   `campaigns/upcoming/<name>/`, and `/endtrainingweek` step 3b promotes it from
+   there, so it needs the same shape as the first campaign:
+   - `summary.md` with the **same sections** as item 4:
+     - a **Status** line: `**Status:** Upcoming · starts <date>, when <previous campaign> closes`
+     - `## Targets`
+     - `## What this campaign exists to do`
+     - `## Standing decisions`, each with `**Why:** …`
+     - `## Open threads` (checkboxes). Anything to settle at hand-over (paces, travel
+       windows, targets that depend on the previous campaign's result) is tagged
+       `(at promotion)`.
+     - `## Campaign history`: "None yet."
+   - `plan.md`: a week-by-week outline in the same table as item 5. Phase docs are
+     written later, near the end of the previous campaign.
+   - A row in the table in `campaigns/upcoming/README.md`, in its format:
+     `| <name> | <start> – <end> | When <previous campaign> closes (<date>) |`.
 
 Then show a plain-language summary, under 200 words: the goal, how the season is split
 up, what a typical week looks like, what the first block focuses on, and anything you've
@@ -592,6 +621,9 @@ relevant s12 questions, then rewrite. Never mark the step done without their app
 **Tell the user:**
 > Now I'll write your first week in detail and put it in Notion. Week 1 starts on
 > <Monday's date>. Until then, carry on as you are, keeping things easy.
+>
+> Notion may ask you to allow each change as I add your sessions. It's fine to allow
+> them.
 
 **Do:**
 1. Week 1 starts today if today is Monday, otherwise next Monday. Create

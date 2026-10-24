@@ -136,8 +136,9 @@ End the file with a `## Changelog` section — mid-week edits get a dated line e
 
 ## 5. Sync to Notion and present the plan
 
-Follow `CLAUDE.md` → "Writing to Notion" (IDs are in `config/notion.md`). This runs under the athlete's standing
-permission; don't ask first.
+Follow `CLAUDE.md` → "Writing to Notion" (IDs are in `config/notion.md`). If
+`standing_permission` there is `yes`, this runs under the athlete's standing permission;
+don't ask first. If it's `no` or missing, ask once for the whole sync below before writing.
 
 1. **Close last week's rows.** Set each one's Status from the step 1 reconciliation:
    Done, Changed (done differently) or Missed. Fill **Actual** with one line from the
